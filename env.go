@@ -178,11 +178,13 @@ func get(field reflect.StructField) (string, error) {
 	}
 
 	readFileVar := field.Tag.Get("envReadFile")
-	readFileBs, readFileErr := ioutil.ReadFile(readFileVar)
-	if readFileErr != nil {
-		return "", err
-	} else {
-		return string(readFileBs), nil
+	if readFileVar != "" {
+		readFileBs, readFileErr := ioutil.ReadFile(readFileVar)
+		if readFileErr != nil {
+			return "", err
+		} else {
+			return string(readFileBs), nil
+		}
 	}
 
 	for _, opt := range opts {
