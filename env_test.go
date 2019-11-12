@@ -952,6 +952,16 @@ func TestParseURL(t *testing.T) {
 	assert.Equal(t, "https://google.com", cfg.ExampleURL.String())
 }
 
+func TestReadFile(t *testing.T) {
+	type config struct {
+		Content string `env:"TPL" envReadFile:"./env_test.go"`
+	}
+	var cfg config
+	assert.NoError(t, Parse(&cfg))
+
+	assert.Equal(t, "https://google.com", cfg.Content)
+}
+
 func TestParseInvalidURL(t *testing.T) {
 	type config struct {
 		ExampleURL url.URL `env:"EXAMPLE_URL_2"`

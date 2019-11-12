@@ -4,6 +4,7 @@ import (
 	"encoding"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"net/url"
 	"os"
 	"reflect"
@@ -174,6 +175,14 @@ func get(field reflect.StructField) (string, error) {
 	expandVar := field.Tag.Get("envExpand")
 	if strings.EqualFold(expandVar, "true") {
 		val = os.ExpandEnv(val)
+	}
+
+	readFileVar := field.Tag.Get("envReadFile")
+	readFileBs, readFileErr := ioutil.ReadFile(readFileVar)
+	if readFileErr != nil {
+		return "", err
+	} else {
+		return string(readFileBs), nil
 	}
 
 	for _, opt := range opts {

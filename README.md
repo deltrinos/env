@@ -31,6 +31,7 @@ type config struct {
 	Hosts        []string      `env:"HOSTS" envSeparator:":"`
 	Duration     time.Duration `env:"DURATION"`
 	TempFolder   string        `env:"TEMP_FOLDER" envDefault:"${HOME}/tmp" envExpand:"true"`
+	Template     string        `env:"TPL" envReadFile:"tpl.html"`
 }
 
 func main() {
